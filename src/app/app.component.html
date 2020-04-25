@@ -1,0 +1,89 @@
+<div class="container" style="margin-top: 40px;width: 500px;">
+  <h4 class="text-center">JSpider Enrollment Form</h4>
+
+  <form #userForm="ngForm" (ngSubmit)="onSubmit()" novalidate>
+    <hr />
+    {{ userForm.form.valid }}
+    <div class="form-group">
+      <label class="font-weight-bold">Name</label>
+      <input type="text" required #name="ngModel" [class.is-invalid]="name.invalid && name.touched" 
+      class="form-control" name = "name" [(ngModel)] = "userModel.name">
+     <small class="text-danger" [class.d-none]="name.valid || name.untouched">Name is required</small>
+    </div>
+   
+    <div class="form-group">
+      <label class="font-weight-bold">Email</label>
+      <input type="email" required #name="ngModel" [class.is-invalid]="name.invalid && name.touched"
+       class="form-control" name = "email" [(ngModel)] = "userModel.email">
+      <small class="text-danger" [class.d-none]="name.valid || name.untouched">Email is required</small>
+    </div>
+
+    <div class="form-group">
+      <label class="font-weight-bold">Phone number</label>
+      <input type="tel" required #phone="ngModel" pattern="^\d{10}$" [class.is-invalid]="phone.invalid && phone.touched"  
+      class="form-control" name = "phonenumber" [(ngModel)] = "userModel.phonenumber">
+      <!--<small class="text-danger" [class.d-none]="phone.invalid || phone.untouched">phone number must be 10 digits</small>-->
+      <div *ngIf="phone.errors && (phone.invalid || phone.touched)">
+        <small class ="text-danger" *ngIf="phone.errors.required">Phone number is required </small>
+        <small class = "text-danger" *ngIf="phone.errors.pattern">Phone number must be 10 digits</small>
+      </div>
+    </div>
+
+<div ngModelGroup="address">
+  <div class="form-group">
+    <label class="font-weight-bold">Street</label>
+    <input type="tel" class="form-control" name = "street" [(ngModel)] = "userModel.street">
+  </div>
+
+  <div class="form-group">
+    <label class="font-weight-bold">City</label>
+    <input type="tel" class="form-control" name = "city" [(ngModel)] = "userModel.city">
+  </div>
+
+  <div class="form-group">
+    <label class="font-weight-bold">State</label>
+    <input type="tel" class="form-control" name = "state" [(ngModel)] = "userModel.state">
+  </div>
+
+  <div class="form-group">
+    <label class="font-weight-bold">Postal Code</label>
+    <input type="tel" class="form-control" name = "postalCode" [(ngModel)] = "userModel.postalCode">
+  </div>
+</div>
+
+    <div class="form-group">
+      <select (blur)="validateTopic(topic.value)" (change)="validateTopic(topic.value)" #topic="ngModel" 
+      [class.is-invalid]="topicHasError && topic.touched" class="custom-select" name="topic" 
+      [(ngModel)] = "userModel.topic">
+        <option value="default" class="font-weight-bold">I am Interested in</option>
+        <option *ngFor="let topic of topics">{{topic}}</option>
+      </select>
+      <small class="text-danger" [class.d-none]="!topicHasError || topic.untouched">Please choose a topic</small>
+    </div>
+   
+    <div class ="mb-3">
+      <label class="font-weight-bold">Time preference</label>
+
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="timePreference" id="exampleRadios2" 
+              value="morning" [(ngModel)] = "userModel.timePreference">
+      <label class="form-check-label">Morning (9AM - 12PM)</label>
+    </div>
+
+    <div class="form-check disabled">
+      <input class="form-check-input" type="radio" name="timePreference" id="exampleRadios3"
+           value="evening" [(ngModel)] = "userModel.timePreference">
+      <label class="form-check-label">Evening (4AM - 7PM)</label>
+    </div>
+  </div>
+    <div class="form-check mb-3">
+      <input type="checkbox" class="form-check-input" name= "subscribe" id="exampleCheck1" 
+            [(ngModel)] = "userModel.subscribe">
+      <label class="form-check-label" class="font-weight-bold">Send me promotional offers</label>
+    </div>
+
+    <button [disabled]="userForm.form.invalid || topicHasError" type="submit" class="btn btn-primary"
+     style="float:center;">Submit</button>
+  
+  </form>
+</div>
